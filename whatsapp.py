@@ -50,6 +50,7 @@ def send_message(links:list,dry_run:bool):
         print(f"{count} of {total} {link_tuple}")
         message = message_builder(name)
         driver.get(link)
+        driver.execute_script("window.onbeforeunload = function() {};")
         textField = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div:nth-of-type(4) > div > footer > div:nth-of-type(1) > div > span:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1)")))     
         if not dry_run:
             type_message(driver=driver,message=message)

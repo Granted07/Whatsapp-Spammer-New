@@ -32,10 +32,10 @@ def type_message(driver:any,message):
 def send_message(links:list,dry_run:bool):
     dump = load_dump()
     print('Dry Run status:',dry_run)
-    options = webdriver.FirefoxOptions()
-    options.add_argument("-profile")
-    options.add_argument("C:/Users/anjis/AppData/Roaming/Mozilla/Firefox/Profiles/tivoiz28.default-release")
-    driver=webdriver.Firefox(options=options)
+    options = webdriver.ChromeOptions()
+    options.add_argument("--user-data-dir=C:\\Users\\natimerry\\AppData\\Local\\Chromium\\User Data") #path
+    # options.add_experimental_option("detach", True)
+    driver=webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 100)
     count = 0
     total = len(links)

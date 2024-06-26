@@ -33,6 +33,7 @@ def send_message(links:list,dry_run:bool):
     dump = load_dump()
     print('Dry Run status:',dry_run)
     options = webdriver.ChromeOptions()
+
     options.add_argument("--user-data-dir=C:\\Users\\natimerry\\AppData\\Local\\Chromium\\User Data") #path
     # options.add_experimental_option("detach", True)
     driver=webdriver.Chrome(options=options)
@@ -40,8 +41,8 @@ def send_message(links:list,dry_run:bool):
     count = 0
     total = len(links)
     import time
+    start = time.time()
     for link_tuple in links:
-        start = time.time()
         count+=1
         name,link= link_tuple
         name = name.split()[0]

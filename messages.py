@@ -14,6 +14,6 @@
 
 def message_builder(name:str) -> str:
     disc_message = "Welcome to tech club 2024-25"
-    message = f"Greetings {name},\n{disc_message}"
+    message = f"Greetings {name},{disc_message}"
     message.format(name=name)
     return message

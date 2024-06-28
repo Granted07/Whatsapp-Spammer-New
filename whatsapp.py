@@ -35,8 +35,8 @@ def load_dump():
 def type_message(driver:any,message:str,f:bool):
     action_chain = ActionChains(driver)
     action_chain.send_keys(message)
-    action_chain.key_down(Keys.LEFT_CONTROL).perform()
     if f == 1:
+        action_chain.key_down(Keys.LEFT_CONTROL).perform()
         action_chain.send_keys("v").perform()
         action_chain.key_up(Keys.LEFT_CONTROL).perform()
         sleep(2)

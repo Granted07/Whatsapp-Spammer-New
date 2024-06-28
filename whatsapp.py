@@ -32,18 +32,19 @@ def load_dump():
     print(f"Names loaded from already sent: {l}")
     return l
 
-def type_message(driver:any,message):
+def type_message(driver:any,message:str,f:bool):
     action_chain = ActionChains(driver)
     action_chain.send_keys(message)
     action_chain.key_down(Keys.LEFT_CONTROL).perform()
-    action_chain.send_keys("v").perform()
-    action_chain.key_up(Keys.LEFT_CONTROL).perform()
-    sleep(2)
+    if f == 1:
+        action_chain.send_keys("v").perform()
+        action_chain.key_up(Keys.LEFT_CONTROL).perform()
+        sleep(2)
     action_chain.send_keys(Keys.RETURN).perform()
 
-def send_message(links:list,message:str,dry_run:bool,folderName:str):
+def send_message(links:list,imessage:str,dry_run:bool,folderName:str,f:bool):
     dump = load_dump()
-    msg=message
+    msg=imessage
     print('Dry Run status:',dry_run)
     options = webdriver.FirefoxOptions()
     options.add_argument("-profile")
@@ -62,7 +63,7 @@ def send_message(links:list,message:str,dry_run:bool,folderName:str):
         if link in dump:
             continue
         print(f"{count} of {total} {link_tuple}")
-        message = message_builder(name)
+        message = message_builder(name,msg)
         try:
             driver.get(link)
         except:
@@ -72,7 +73,7 @@ def send_message(links:list,message:str,dry_run:bool,folderName:str):
         print('Opening chat')
         wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div:nth-of-type(4) > div > footer > div:nth-of-type(1) > div > span:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1)")))     
         if not dry_run:
-            type_message(driver=driver,message=msg)
+            type_message(driver=driver,message=message,f=f)
             sleep(3.5)
             with open("./dump.txt","a") as dumpfile:
                 dumpfile.write(f"{link}\n")

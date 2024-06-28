@@ -8,7 +8,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QMainWindow, QFileDialog, QDialogButtonBox, QRadioButton,
-    QLabel, QPushButton, QSizePolicy, QWidget, QTextBrowser, QTextEdit)
+    QLabel, QMenuBar, QStatusBar, QPushButton, QSizePolicy, QWidget, QAbstractButton, QTextBrowser, QTextEdit)
 from PySide6 import QtWidgets
 
 class MyWindow(QMainWindow):
@@ -18,6 +18,27 @@ class MyWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
+        
+        font = QFont()
+        font.setFamilies([u"Montserrat"])
+        font.setPointSize(10)
+        font.setBold(True)
+
+        self.centralwidget = QWidget(self)
+        self.centralwidget.setObjectName(u"centralwidget")
+        self.radioButton = QRadioButton(self.centralwidget)
+        self.radioButton.setObjectName(u"radioButton")
+        self.radioButton.setGeometry(QRect(10, 230, 111, 17))
+        self.radioButton.setFont(font)
+        self.setCentralWidget(self.centralwidget)
+        self.menubar = QMenuBar(self)
+        self.menubar.setObjectName(u"menubar")
+        self.menubar.setGeometry(QRect(0, 0, 425, 21))
+        self.setMenuBar(self.menubar)
+        self.statusbar = QStatusBar(self)
+        self.statusbar.setObjectName(u"statusbar")
+        self.setStatusBar(self.statusbar)
+
         self.buttonBox = QDialogButtonBox(self)
         self.buttonBox.setObjectName(u"buttonBox")
         self.buttonBox.setGeometry(QRect(70, 290, 341, 32))
@@ -31,10 +52,6 @@ class MyWindow(QMainWindow):
         self.label = QLabel(self)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(10, 20, 211, 21))
-        font = QFont()
-        font.setFamilies([u"Montserrat"])
-        font.setPointSize(10)
-        font.setBold(True)
         self.label.setFont(font)
         self.b2 = QPushButton(self)
         self.b2.setObjectName(u"b2")
@@ -56,12 +73,12 @@ class MyWindow(QMainWindow):
         self.label.adjustSize()
         self.label_2.setText(QCoreApplication.translate("Dialog", u"Edit Form.csv:", None))
         self.label_2.adjustSize()
-        self.label_3.setText(QCoreApplication.translate("Dialog", u"Enter Message", None))
+        self.label_3.setText(QCoreApplication.translate("Dialog", u"Enter Message (use {name} for name)", None))
         self.label_3.adjustSize()
         self.textEdit = QTextEdit(self)
         self.textEdit.setObjectName(u"textEdit")
         self.textEdit.setGeometry(QRect(150, 160, 251, 121))
-        
+        self.radioButton.setText(QCoreApplication.translate("MainWindow", u"Use Ctrl+V", None))
 
     def profileselect(self):
         global folderName
@@ -87,12 +104,15 @@ class MyWindow(QMainWindow):
         os.startfile("form.csv")
 
     def accept(self):
+        print('Toggled: ', self.radioButton.isChecked())
         csvlist = whatsapp.returnDictData("form.csv","Name", "Number")
         active_list = csvlist # or test_list
         msg = self.textEdit.toPlainText()
         print('Message:',msg)
-        whatsapp.send_message(active_list, msg, False, folderName)
-
+        if self.radioButton.isChecked():
+            whatsapp.send_message(active_list, msg, False, folderName, f=1)
+        else:
+            whatsapp.send_message(active_list, msg, False, folderName, f=0)
         # filtered = []
 
         # for user in active_list:

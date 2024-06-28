@@ -10,10 +10,7 @@
 # cp_message = "*Competitive Programming*\nJoin the Competitive Programming Group: https://chat.whatsapp.com/I0af6PO2uI0Jf806vfkVLm\n"     
 # dev_message = "*Development*\nJoin the Development Group: https://chat.whatsapp.com/DKU5w4VwWVQ2xy3DCnqtQa\n" 
 
-disc_message='lalala'
-
-def message_builder(name:str) -> str:
-    message=''
-    message += f"Greetings {name},\n{disc_message}"
-    print(name, message)
+def message_builder(name:str,msg:str) -> str:
+    message = msg.format(name=name)
+    print(name,msg,message)
     return message

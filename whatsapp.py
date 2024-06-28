@@ -10,8 +10,14 @@ from messages import message_builder
 import os,csv
 
 def link_builder(number:str):
-    if len(number) > 10:
-        number=number[-10:]
+    for i in range(len(number)):
+        try:
+            if not number[i].isnumeric():
+                number=number[:i]+number[i+1:]
+                i-=1
+        except:
+            continue
+    number=number[-10:]
     return f"https://web.whatsapp.com/send?phone=%2B91{number}&text&app_absent=0"
 
 def load_dump():

@@ -7,7 +7,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractButton, QApplication, QMainWindow, QFileDialog, QDialogButtonBox,
+from PySide6.QtWidgets import (QAbstractButton, QApplication, QMainWindow, QFileDialog, QDialogButtonBox, QRadioButton,
     QLabel, QPushButton, QSizePolicy, QWidget, QTextBrowser, QTextEdit)
 from PySide6 import QtWidgets
 

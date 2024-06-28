@@ -1,1 +1,1 @@
-pip install selenium, pyside6
+pip install selenium pyside6

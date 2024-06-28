@@ -88,11 +88,9 @@ class MyWindow(QMainWindow):
         options |= QFileDialog.DontUseCustomDirectoryIcons
         dialog = QFileDialog()
         dialog.setOptions(options)
-        x=''
-        for i in os.getcwd().split("\\")[0:3]:
-            x+=i
-            x+='\\\\'
-        dialog.setDirectory(x+'AppData\\Roaming\\Mozilla\\Firefox\\Profiles')
+        x=os.getenv('APPDATA')
+        x+='\\\\'
+        dialog.setDirectory(x+'Mozilla\\Firefox\\Profiles')
         folderName = str(dialog.getExistingDirectory(self, "Select Directory"))
         self.label.setText(QCoreApplication.translate("Dialog", u"Current selected file:\n"+folderName , None))
         self.label.adjustSize()

@@ -1,5 +1,6 @@
+msg=''
 import os,sys
-import whatsapp
+from whatsapp import returnDictData, send_message
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect, QStringListModel,
     QSize, QTime, QUrl, Qt)
@@ -102,15 +103,16 @@ class MyWindow(QMainWindow):
         os.startfile("form.csv")
 
     def accept(self):
+        global msg
         print('Toggled: ', self.radioButton.isChecked())
-        csvlist = whatsapp.returnDictData("form.csv","Name", "Number")
+        csvlist = returnDictData("form.csv","Name", "Number")
         active_list = csvlist # or test_list
         msg = self.textEdit.toPlainText()
         print('Message:',msg)
         if self.radioButton.isChecked():
-            whatsapp.send_message(active_list, msg, False, folderName, f=1)
+            send_message(active_list, msg, False, folderName, f=1)
         else:
-            whatsapp.send_message(active_list, msg, False, folderName, f=0)
+            send_message(active_list, msg, False, folderName, f=0)
         # filtered = []
 
         # for user in active_list:

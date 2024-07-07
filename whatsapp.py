@@ -40,7 +40,7 @@ def type_message(driver:any,message:str,f:bool):
         action_chain.key_down(Keys.LEFT_CONTROL).perform()
         action_chain.send_keys("v").perform()
         action_chain.key_up(Keys.LEFT_CONTROL).perform()
-        sleep(2)
+    sleep(2)
     action_chain.send_keys(Keys.RETURN).perform()
 
 def returnDictData(csvfile:str, name_row_name, phone_number_row_name) -> list:
@@ -69,14 +69,14 @@ def send_message(links:list, msg:str, dry_run:bool,folderName:str,f:bool):
     options = webdriver.FirefoxOptions()
     options.add_argument("-profile")
     options.add_argument(folderName)
-    if f!=1: options.add_argument("-headless") 
+    # if f!=1: options.add_argument("-headless") 
     driver=webdriver.Firefox(options=options)
-    wait = WebDriverWait(driver, 100)
+    wait = WebDriverWait(driver, 10)
     count = 0
     total = len(links)
     import time
+    start = time.time()
     for link_tuple in links:
-        start = time.time()
         count+=1
         name,link= link_tuple
         name = name.split()[0]
@@ -84,7 +84,6 @@ def send_message(links:list, msg:str, dry_run:bool,folderName:str,f:bool):
             continue
         print(f"{count} of {total} {link_tuple}")
         message = msg.format(name=name)
-        print(message)
         try:
             driver.get(link)
         except:
@@ -92,7 +91,11 @@ def send_message(links:list, msg:str, dry_run:bool,folderName:str,f:bool):
             driver.get(link)
         driver.execute_script("window.onbeforeunload = function() {};")
         print('Opening chat')
-        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div:nth-of-type(4) > div > footer > div:nth-of-type(1) > div > span:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1)")))     
+        try:
+            wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div:nth-of-type(4) > div > footer > div:nth-of-type(1) > div > span:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1)")))
+        except:
+            open('flagged.txt', 'a').write(f'{link.split('B')[1][2:12]}\n')
+            continue  
         if not dry_run:
             type_message(driver=driver,message=message,f=f)
             sleep(3)

@@ -69,7 +69,7 @@ def send_message(links:list, msg:str, dry_run:bool,folderName:str,f:bool):
     options = webdriver.FirefoxOptions()
     options.add_argument("-profile")
     options.add_argument(folderName)
-    # if f!=1: options.add_argument("-headless") 
+    if f!=1: options.add_argument("-headless") 
     driver=webdriver.Firefox(options=options)
     wait = WebDriverWait(driver, 10)
     count = 0
@@ -79,7 +79,10 @@ def send_message(links:list, msg:str, dry_run:bool,folderName:str,f:bool):
     for link_tuple in links:
         count+=1
         name,link= link_tuple
-        name = name.split()[0]
+        try:
+            name = name.split()[0]
+        except:
+            pass
         if link in dump:
             continue
         print(f"{count} of {total} {link_tuple}")
@@ -94,7 +97,7 @@ def send_message(links:list, msg:str, dry_run:bool,folderName:str,f:bool):
         try:
             wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div:nth-of-type(4) > div > footer > div:nth-of-type(1) > div > span:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1)")))
         except:
-            open('flagged.txt', 'a').write(f'{link.split('B')[1][2:12]}\n')
+            open('flagged.txt', 'a').write(f"{link.split('B')[1][2:12]}\n")
             continue  
         if not dry_run:
             type_message(driver=driver,message=message,f=f)
@@ -105,5 +108,5 @@ def send_message(links:list, msg:str, dry_run:bool,folderName:str,f:bool):
         else:
             continue
     end = time.time()
-    print(f"Elapsed time: {end - start}")
+    print(f"Elapsed time: {int(end - start)}")
     driver.quit()
